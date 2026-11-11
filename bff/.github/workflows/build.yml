@@ -1,0 +1,40 @@
+name: CI Build
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Baixar o código do repositório
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Configurar o ambiente Java (ex: Java 21)
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+          cache: 'maven' # Opcional: faz cache das dependências do Maven para agilizar
+
+      # 3. Compilar o projeto (exemplo usando Maven)
+      - name: Build with Maven
+        run: ./mvnw clean package -DskipTests
+
+      # 4. Configurar o Docker Buildx (necessário para construir imagens eficientes)
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # 5. Build da imagem Docker (sem precisar fazer push ainda, apenas testando o build)
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false # Mude para true se quiser enviar para um Registry (Docker Hub / GHCR) futuramente
+          tags: meu-app:latest
