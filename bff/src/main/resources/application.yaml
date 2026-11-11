@@ -1,0 +1,10 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: bff
+
+api:
+  produtos:
+    url: ${API_PRODUTOS_URL:http://localhost:8080}
