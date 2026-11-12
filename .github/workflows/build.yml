@@ -47,7 +47,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: uverdocker/bff-1.0.0:latest:${{ github.sha }}
+          tags: uverdocker/bff-1.0.0:${{ github.sha }}
 
       # 7. Atualizar automaticamente a tag no manifesto do Kubernetes (GitOps)
       - name: Update Kubernetes Manifest
@@ -56,7 +56,7 @@ jobs:
           git config --global user.email "actions@github.com"
           
           # Ajuste o caminho do arquivo de manifesto abaixo conforme a estrutura do seu projeto
-          sed -i 's|image: uverdocker/bff-1.0.0:latest:.*|image: uverdocker/bff-1.0.0:${{ github.sha }}|g' k8s/deployment.yaml
+          sed -i 's|image: uverdocker/bff-1.0.0:.*|image: uverdocker/bff-1.0.0:${{ github.sha }}|g' k8s/deployment.yaml
           
           git add k8s/deployment.yaml
           git commit -m "chore: update image tag to ${{ github.sha }}"
