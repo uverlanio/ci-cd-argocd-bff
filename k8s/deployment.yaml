@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: bff-app
-          image: uverdocker/bff-1.0.0:27f587958697d9d62a494e324400fe19fd7e6d37
+          image: uverdocker/bff-1.0.0:6ebd8055925223273ceb5f3dab3e6096ca5d382a
           ports:
             - containerPort: 8080
 ---
