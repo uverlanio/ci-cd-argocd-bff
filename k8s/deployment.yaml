@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bff-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bff-app
+  template:
+    metadata:
+      labels:
+        app: bff-app
+    spec:
+      containers:
+        - name: bff-app
+          image: uverdocker/bff-1.0.0:latest
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bff-service
+spec:
+  type: ClusterIP
+  selector:
+    app: bff-app
+  ports:
+    - port: 80
+      targetPort: 8080
